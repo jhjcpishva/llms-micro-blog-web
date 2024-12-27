@@ -4,8 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import { onMounted } from 'vue'
 
-const router = useRouter()
-const route = useRoute()
+const [route, router] = [useRoute(), useRouter()]
 
 const { BASE_URL } = import.meta.env
 
