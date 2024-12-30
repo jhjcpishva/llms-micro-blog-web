@@ -1,23 +1,26 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
-import TheWelcome from '@/components/TheWelcome.vue'
+import { computed } from 'vue'
+import SubmitPostForm from '@/components/SubmitPostForm.vue'
+import Post from '@/components/Post.vue'
+import { useSessionStore } from '@/stores/session'
+
+const sessionStore = useSessionStore()
+const hasSession = computed(() => !!sessionStore.session)
 </script>
 
 <template>
-  <main>
-    <h1>HomeView</h1>
-    <h2>TheWelcome</h2>
-    <TheWelcome />
-    <h2>Pages</h2>
-    <ul>
-      <li class="pl-4">
-        <RouterLink class="link" to="/">Home</RouterLink>
-      </li>
-      <li class="pl-4">
-        <RouterLink class="link" :to="{ name: 'login' }">Login</RouterLink>
-      </li>
-    </ul>
-  </main>
+  <div v-if="!hasSession" class="x-no-session">Please Login</div>
+  <div v-else>
+    <div class="x-submit-form bg-white">
+      <div class="x-make-post">
+        <span class="p-4 text-lg font-bold text-gray-800">Make Post...</span>
+        <SubmitPostForm />
+      </div>
+    </div>
+    <div class="x-timeline mt-8">
+      <Post />
+    </div>
+  </div>
 </template>
 
 <style scoped>
