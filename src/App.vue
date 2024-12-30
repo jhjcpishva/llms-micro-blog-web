@@ -10,7 +10,7 @@ sessionStore.fetchSession() // async
 
 <template>
   <header>
-    <div class="wrapper">
+    <div>
       <nav>nav &gt; {{ router.currentRoute.value.name }}</nav>
       <hr />
     </div>
