@@ -98,7 +98,6 @@ export const usePocketBase = defineStore('pocketbase', () => {
     const res = await _pb.collection('posts').getFullList<PostRecord>({
       expand: 'user',
     })
-    console.log('🐶 Posts fetched:', res)
     posts.value = res
 
     // 画面に表示されたときで呼びたい
@@ -112,7 +111,6 @@ export const usePocketBase = defineStore('pocketbase', () => {
     const res = await _pb.collection('comments').getFullList<CommentRecord>({
       expand: 'user',
     })
-    console.log('🐶 fetchComments fetched:', res)
     comments.value = {
       ...comments.value,
       [post_id]: res,
