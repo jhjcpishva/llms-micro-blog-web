@@ -1,11 +1,24 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import SubmitPostForm from '@/components/SubmitPostForm.vue'
 import Post from '@/components/Post.vue'
 import { useSessionStore } from '@/stores/session'
+import { usePocketBase } from '@/stores/pocketbase'
 
 const sessionStore = useSessionStore()
 const hasSession = computed(() => !!sessionStore.session)
+const pbStore = usePocketBase()
+const isLoggedIn = computed(() => !!pbStore.isLoggedIn)
+const posts = computed(() => pbStore.posts)
+
+onMounted(async () => {
+  if (hasSession.value && !isLoggedIn.value) {
+    await pbStore.login(sessionStore.session!.user_id)
+  }
+  if (isLoggedIn.value) {
+    await pbStore.fetchPosts()
+  }
+})
 </script>
 
 <template>
@@ -18,7 +31,7 @@ const hasSession = computed(() => !!sessionStore.session)
       </div>
     </div>
     <div class="x-timeline mt-8">
-      <Post />
+      <Post v-for="(post, index) in posts" :key="index" :post="post" />
     </div>
   </div>
 </template>

@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { fetchSession as fetchSessionApi } from '@/api/llms'
 import type { FetchSessionResponse } from '@/api/llms'
+import { usePocketBase } from './pocketbase'
 
 export const useSessionStore = defineStore('session', () => {
   const sessionId = ref(null as string | null)
@@ -29,6 +30,16 @@ export const useSessionStore = defineStore('session', () => {
         throw new Error('Error fetching session')
       }
       session.value = response!
+
+      // tmp
+      const pb = usePocketBase()
+      pb.init()
+      try {
+        await pb.login(response!.user_id)
+      } catch (e) {
+        // TODO: upload avatar?
+        await pb.signup(response!)
+      }
     }
   }
 
