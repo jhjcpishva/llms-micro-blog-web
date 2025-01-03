@@ -2,6 +2,7 @@
 import { computed, onMounted } from 'vue'
 import SubmitPostForm from '@/components/SubmitPostForm.vue'
 import Post from '@/components/Post.vue'
+import IntersectionObserverWrapper from '@/components/IntersectionObserverWrapper.vue'
 import { useSessionStore } from '@/stores/session'
 import { usePocketBase, type PostRecord } from '@/stores/usePocketbase'
 
@@ -10,6 +11,11 @@ const hasSession = computed(() => !!sessionStore.session)
 const pbStore = usePocketBase()
 const isLoggedIn = computed(() => !!pbStore.isLoggedIn)
 const posts = computed(() => pbStore.posts)
+
+async function handleIntersection(arg: { post: PostRecord }) {
+  const { post } = arg
+  await pbStore.fetchComments(post.id)
+}
 
 async function handleSubmitted(arg: { post: PostRecord }) {
   const { post } = arg
@@ -37,7 +43,13 @@ onMounted(async () => {
       </div>
     </div>
     <div class="x-timeline mt-8">
-      <Post v-for="(post, index) in posts" :key="index" :post="post" />
+      <IntersectionObserverWrapper
+        v-for="post in posts"
+        :key="post.id"
+        @intersection="() => handleIntersection({ post })"
+      >
+        <Post :post="post" />
+      </IntersectionObserverWrapper>
     </div>
   </div>
 </template>

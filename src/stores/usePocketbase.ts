@@ -102,9 +102,6 @@ export const usePocketBase = defineStore('pocketbase', () => {
       sort: '-created',
     })
     posts.value = res
-
-    // 画面に表示されたときで呼びたい
-    await Promise.all(res.map((post) => fetchComments(post.id)))
   }
 
   async function createComment(post: PostRecord, content: string) {
@@ -127,6 +124,8 @@ export const usePocketBase = defineStore('pocketbase', () => {
     const res = await _pb.collection('comments').getFullList<CommentRecord>({
       filter: `post.id = "${post_id}"`,
       expand: 'user',
+      sort: '-created',
+      requestKey: `fetch-comments-${post_id}`, // 同時に複数リクエストが走った際にキャンセルさせないように
     })
     comments.value = {
       ...comments.value,
