@@ -47,7 +47,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
   const isLoggedIn = computed(() => currentUser.value !== null)
 
   function init() {
-    const _pb = (pb.value = new PocketBase('http://localhost:8090/'))
+    pb.value = new PocketBase('http://localhost:8090/')
   }
 
   async function login(user_id: string): Promise<void> {
