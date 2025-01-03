@@ -63,11 +63,22 @@ export const usePocketBase = defineStore('pocketbase', () => {
       .authWithPassword<UserRecord>(email, password)
     currentUser.value = res.record
   }
+
   async function signup(session: FetchSessionResponse): Promise<void> {
     if (!pb.value) {
       throw new Error('PocketBase not initialized')
     }
     const _pb = pb.value
+
+    let file = null
+    if (session.picture) {
+      // Check if picture is provided
+      const response = await fetch(session.picture)
+      const blob = await response.blob()
+      file = new File([blob], `${session.user_id}-picture.jpg`, {
+        type: blob.type,
+      })
+    }
 
     const res = await _pb.collection('users').create<UserRecord>({
       email: `${session.user_id}@line.dummy`,
@@ -75,6 +86,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
       passwordConfirm: session.user_id,
       username: session.user_id,
       name: session.name,
+      avatar: file,
       verified: false,
     })
     currentUser.value = res
