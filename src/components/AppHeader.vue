@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useSessionStore } from '@/stores/session'
+import { computed, watch } from 'vue'
+import { usePocketBase } from '@/stores/usePocketBase'
 
 import { RouterLink } from 'vue-router'
 
-const sessionStore = useSessionStore()
+const pbStore = usePocketBase()
 
-const session = computed(() => sessionStore.session)
+const user = computed(() => pbStore.currentUser)
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const session = computed(() => sessionStore.session)
     <h1 class="text-xl font-bold">
       <RouterLink to="/">My App</RouterLink>
     </h1>
-    <div v-if="!session" class="flex h-full items-center gap-2">
+    <div v-if="!user" class="flex h-full items-center gap-2">
       <RouterLink
         :to="{ name: 'login' }"
         class="flex h-full items-center rounded px-1 font-bold hover:bg-blue-500"
@@ -24,9 +24,9 @@ const session = computed(() => sessionStore.session)
       >
     </div>
     <div v-else class="flex h-full items-center gap-2">
-      <span class="font-bold">{{ session.name }}</span>
+      <span class="font-bold">{{ user.name }}</span>
       <img
-        :src="session.picture || ''"
+        :src="pbStore.getAvatarUrl(user)"
         alt="profile"
         class="h-8 w-8 rounded-full"
       />

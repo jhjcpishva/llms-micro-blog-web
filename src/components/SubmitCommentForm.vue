@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, type PropType } from 'vue'
 import { usePocketBase, type PostRecord } from '@/stores/usePocketbase'
-import { useSessionStore } from '@/stores/session'
 
 const props = defineProps({
   post: {
@@ -12,11 +11,9 @@ const props = defineProps({
 
 const emits = defineEmits(['submitted'])
 
-const sessionStore = useSessionStore()
 const pbStore = usePocketBase()
 const commentContent = ref('')
-
-const user = computed(() => sessionStore.session)
+const currentUser = computed(() => pbStore.currentUser)
 
 async function submitPost() {
   const comment = await pbStore.createComment(props.post, commentContent.value)
@@ -29,20 +26,20 @@ async function submitPost() {
   <!-- SubmitPostForm -->
   <div class="flex items-center space-x-2 rounded-lg">
     <img
-      :src="user?.picture || 'https://placehold.jp/32x32.png'"
+      :src="pbStore.getAvatarUrl(currentUser)"
       alt="User Avatar"
       class="h-6 w-6 rounded-full"
     />
 
     <div class="text-nowrap text-sm font-medium text-gray-800">
-      {{ user?.name }}
+      {{ currentUser?.name }}
     </div>
 
     <!-- 投稿入力ボックス -->
     <textarea
       v-model="commentContent"
-      class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      placeholder="Reply your comment here..."
+      class="my-1 w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Reply to comment..."
       rows="1.2"
     ></textarea>
 

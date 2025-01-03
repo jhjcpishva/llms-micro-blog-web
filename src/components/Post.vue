@@ -37,7 +37,7 @@ async function handleCommentSubmitted(arg: {
     >
       <div class="flex items-center">
         <img
-          src="https://placehold.jp/32x32.png"
+          :src="pbStore.getAvatarUrl(post.expand?.user)"
           alt="User Avatar"
           class="mr-2 h-8 w-8 rounded-full"
         />

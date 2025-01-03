@@ -10,12 +10,14 @@ const props = defineProps({
     required: true,
   },
 })
+
+const pbStore = usePocketBase()
 </script>
 
 <template>
   <div class="flex items-center">
     <img
-      src="https://placehold.jp/32x32.png"
+      :src="pbStore.getAvatarUrl(comment.expand?.user)"
       alt="User Avatar"
       class="mr-2 h-6 w-6 rounded-full"
     />

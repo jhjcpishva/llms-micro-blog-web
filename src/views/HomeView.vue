@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, watch } from 'vue'
 import SubmitPostForm from '@/components/SubmitPostForm.vue'
 import Post from '@/components/Post.vue'
 import IntersectionObserverWrapper from '@/components/IntersectionObserverWrapper.vue'
@@ -23,14 +23,13 @@ async function handleSubmitted(arg: { post: PostRecord }) {
   await pbStore.fetchComments(post.id)
 }
 
-onMounted(async () => {
-  if (hasSession.value && !isLoggedIn.value) {
-    await pbStore.login(sessionStore.session!.user_id)
-  }
-  if (isLoggedIn.value) {
-    await pbStore.fetchPosts()
-  }
-})
+watch(
+  isLoggedIn,
+  async (_isLoggedIn: boolean) => {
+    _isLoggedIn && (await pbStore.fetchPosts())
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

@@ -5,7 +5,7 @@ import type { FetchSessionResponse } from '@/api/llms'
 
 interface UserRecord {
   id: string
-  avatar: string
+  avatar: string | null
   created: string
   email: string
   emailVisibility: boolean
@@ -45,6 +45,18 @@ export const usePocketBase = defineStore('pocketbase', () => {
   const comments = ref({} as { [postId: string]: Array<CommentRecord> })
 
   const isLoggedIn = computed(() => currentUser.value !== null)
+
+  const getAvatarUrl = computed(() => (user?: UserRecord | null) => {
+    if (!user) {
+      return 'https://placehold.jp/32x32.png'
+    }
+    const _pb = pb?.value
+    const { avatar } = user
+    if (!_pb || !avatar) {
+      return 'https://placehold.jp/32x32.png'
+    }
+    return _pb.files.getURL(user, avatar)
+  })
 
   function init() {
     pb.value = new PocketBase('http://localhost:8090/')
@@ -151,6 +163,8 @@ export const usePocketBase = defineStore('pocketbase', () => {
     login,
     isLoggedIn,
     signup,
+    currentUser,
+    getAvatarUrl,
     createPost,
     fetchPosts,
     posts,
