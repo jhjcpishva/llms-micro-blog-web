@@ -89,6 +89,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
       content,
       user: currentUser.value?.id ?? '',
     })
+    return res
   }
 
   async function fetchPosts() {
@@ -98,6 +99,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
     const _pb = pb.value
     const res = await _pb.collection('posts').getFullList<PostRecord>({
       expand: 'user',
+      sort: '-created',
     })
     posts.value = res
 
@@ -115,6 +117,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
       post: post.id,
       user: currentUser.value?.id ?? '',
     })
+    return res
   }
   async function fetchComments(post_id: string) {
     if (!pb.value) {

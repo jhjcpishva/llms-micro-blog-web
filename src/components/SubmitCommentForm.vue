@@ -19,9 +19,9 @@ const commentContent = ref('')
 const user = computed(() => sessionStore.session)
 
 async function submitPost() {
-  await pbStore.createComment(props.post, commentContent.value)
+  const comment = await pbStore.createComment(props.post, commentContent.value)
   commentContent.value = '' // Clear the input field after submission
-  emits('submitted', props.post)
+  emits('submitted', { post: props.post, comment })
 }
 </script>
 

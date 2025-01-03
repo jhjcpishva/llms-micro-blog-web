@@ -3,13 +3,19 @@ import { computed, onMounted } from 'vue'
 import SubmitPostForm from '@/components/SubmitPostForm.vue'
 import Post from '@/components/Post.vue'
 import { useSessionStore } from '@/stores/session'
-import { usePocketBase } from '@/stores/usePocketbase'
+import { usePocketBase, type PostRecord } from '@/stores/usePocketbase'
 
 const sessionStore = useSessionStore()
 const hasSession = computed(() => !!sessionStore.session)
 const pbStore = usePocketBase()
 const isLoggedIn = computed(() => !!pbStore.isLoggedIn)
 const posts = computed(() => pbStore.posts)
+
+async function handleSubmitted(arg: { post: PostRecord }) {
+  const { post } = arg
+  await pbStore.fetchPosts()
+  await pbStore.fetchComments(post.id)
+}
 
 onMounted(async () => {
   if (hasSession.value && !isLoggedIn.value) {
@@ -27,7 +33,7 @@ onMounted(async () => {
     <div class="x-submit-form bg-white">
       <div class="x-make-post">
         <span class="p-4 text-lg font-bold text-gray-800">Make Post...</span>
-        <SubmitPostForm />
+        <SubmitPostForm @submitted="handleSubmitted" />
       </div>
     </div>
     <div class="x-timeline mt-8">

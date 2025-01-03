@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { usePocketBase } from '@/stores/usePocketbase'
 import { ref } from 'vue'
+import { usePocketBase } from '@/stores/usePocketbase'
+
+const emits = defineEmits(['submitted'])
 
 const pbStore = usePocketBase()
 const postContent = ref('')
 async function submitPost() {
-  await pbStore.createPost(postContent.value)
+  const post = await pbStore.createPost(postContent.value)
   postContent.value = '' // Clear the input field after submission
+  emits('submitted', { post })
 }
 </script>
 
