@@ -90,6 +90,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
       user: currentUser.value?.id ?? '',
     })
   }
+
   async function fetchPosts() {
     if (!pb.value) {
       throw new Error('PocketBase not initialized')
@@ -102,6 +103,18 @@ export const usePocketBase = defineStore('pocketbase', () => {
 
     // 画面に表示されたときで呼びたい
     await Promise.all(res.map((post) => fetchComments(post.id)))
+  }
+
+  async function createComment(post: PostRecord, content: string) {
+    if (!pb.value) {
+      throw new Error('PocketBase not initialized')
+    }
+    const _pb = pb.value
+    const res = await _pb.collection('comments').create<CommentRecord>({
+      content,
+      post: post.id,
+      user: currentUser.value?.id ?? '',
+    })
   }
   async function fetchComments(post_id: string) {
     if (!pb.value) {
@@ -126,6 +139,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
     createPost,
     fetchPosts,
     posts,
+    createComment,
     fetchComments,
     comments,
   }
