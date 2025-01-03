@@ -14,8 +14,8 @@ const props = defineProps({
     required: true,
   },
 })
-
 const comments = computed(() => pbStore.comments[props.post.id] || [])
+const user = computed(() => props.post.expand?.user)
 
 const isCommentsDisplayed = ref(false)
 
@@ -37,12 +37,12 @@ async function handleCommentSubmitted(arg: {
     >
       <div class="flex items-center">
         <img
-          :src="pbStore.getAvatarUrl(post.expand?.user)"
+          :src="pbStore.getAvatarUrl(user)"
           alt="User Avatar"
           class="mr-2 h-8 w-8 rounded-full"
         />
         <div class="text-sm font-medium text-gray-800">
-          {{ post.expand?.user?.name }}
+          {{ user?.name }}
         </div>
       </div>
       <div class="text-xs text-gray-500">{{ post.created }}</div>
