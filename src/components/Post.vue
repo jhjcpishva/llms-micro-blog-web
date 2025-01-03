@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { computed, defineProps } from 'vue'
 import type { PropType } from 'vue'
-import { usePocketBase } from '@/stores/pocketbase'
-import type { PostRecord } from '@/stores/pocketbase'
+import PostComment from './PostComment.vue'
+import { usePocketBase } from '@/stores/usePocketbase'
+import type { PostRecord } from '@/stores/usePocketbase'
 
 const pbStore = usePocketBase()
 
 const props = defineProps({
-  post: Object as PropType<PostRecord>,
+  post: {
+    type: Object as PropType<PostRecord>,
+    required: true,
+  },
 })
 
-const comments = computed(() => {
-  const id = props.post?.id
-  if (!id) return []
-  return pbStore.comments[id] || []
-})
+const comments = computed(() => pbStore.comments[props.post.id] || [])
 </script>
 
 <template>
@@ -40,24 +40,12 @@ const comments = computed(() => {
     <div class="mb-4 text-4xl text-gray-700">{{ post?.content }}</div>
 
     <!-- replies  -->
-    <div
-      v-for="(comment, index) in comments"
-      class="x-replies ml-8"
-      :key="index"
-    >
-      <div class="flex items-center">
-        <img
-          src="https://placehold.jp/32x32.png"
-          alt="User Avatar"
-          class="mr-2 h-6 w-6 rounded-full"
-        />
-        <div class="text-sm font-medium text-gray-800" :title="comment.created">
-          {{ comment.expand?.user?.name }}
-        </div>
-        <div class="ml-2 text-sm font-medium text-gray-500">
-          {{ comment.content }}
-        </div>
-      </div>
+    <div v-if="comments.length" class="x-comments ml-8">
+      <PostComment
+        v-for="comment in comments"
+        :comment="comment"
+        :key="comment.id"
+      />
     </div>
 
     <!-- アクションボタン -->
