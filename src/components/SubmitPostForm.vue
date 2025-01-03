@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePocketBase } from '@/stores/pocketbase'
+import { usePocketBase } from '@/stores/usePocketbase'
 import { ref } from 'vue'
 
 const pbStore = usePocketBase()

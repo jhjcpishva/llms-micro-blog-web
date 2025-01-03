@@ -3,7 +3,7 @@ import { computed, onMounted } from 'vue'
 import SubmitPostForm from '@/components/SubmitPostForm.vue'
 import Post from '@/components/Post.vue'
 import { useSessionStore } from '@/stores/session'
-import { usePocketBase } from '@/stores/pocketbase'
+import { usePocketBase } from '@/stores/usePocketbase'
 
 const sessionStore = useSessionStore()
 const hasSession = computed(() => !!sessionStore.session)
