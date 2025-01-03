@@ -125,6 +125,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
     }
     const _pb = pb.value
     const res = await _pb.collection('comments').getFullList<CommentRecord>({
+      filter: `post.id = "${post_id}"`,
       expand: 'user',
     })
     comments.value = {
