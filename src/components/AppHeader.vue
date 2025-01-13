@@ -14,7 +14,7 @@ const user = computed(() => pbStore.currentUser)
     class="flex h-16 items-center justify-between bg-blue-900 px-4 text-slate-300"
   >
     <h1 class="text-xl font-bold">
-      <RouterLink to="/">My App</RouterLink>
+      <RouterLink to="/">MicroBlog</RouterLink>
     </h1>
     <div v-if="!user" class="flex h-full items-center gap-2">
       <RouterLink
