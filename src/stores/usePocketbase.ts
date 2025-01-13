@@ -59,7 +59,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
   })
 
   function init() {
-    pb.value = new PocketBase('http://localhost:8090/')
+    pb.value = new PocketBase(import.meta.env.VITE_PB_URL)
   }
 
   async function login(user_id: string): Promise<void> {
