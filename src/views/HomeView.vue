@@ -34,7 +34,7 @@ watch(
 
 <template>
   <div v-if="!hasSession" class="x-no-session">Please Login</div>
-  <div v-else>
+  <div v-else class="x-home-view mx-auto w-full sm:w-[640px]">
     <div class="x-submit-form bg-white">
       <div class="x-make-post">
         <span class="p-4 text-lg font-bold text-gray-800">Make Post...</span>
