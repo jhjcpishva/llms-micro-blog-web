@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
-import { usePocketBase } from '@/stores/usePocketBase'
+import { usePocketBase } from '@/stores/usePocketbase'
 
 import { RouterLink } from 'vue-router'
 
