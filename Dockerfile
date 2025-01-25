@@ -1,4 +1,4 @@
-FROM oven/bun:1.1.40
+FROM oven/bun:1.1.40 AS builder
 
 # Copy the lock and package file
 COPY package.json .
@@ -12,5 +12,13 @@ ENV VITE_PB_URL=$VITE_PB_URL
 
 RUN bun run build-only
 
-EXPOSE 4173
-CMD ["bun", "preview", "--open=0"]
+# Nginx Stage
+FROM nginx:latest
+
+COPY nginx_default.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=builder /home/bun/app/dist /usr/share/nginx/html/app
+
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
