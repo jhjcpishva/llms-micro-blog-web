@@ -149,7 +149,7 @@ export const usePocketBase = defineStore('pocketbase', () => {
       filter: `post.id = "${post_id}"`,
       expand: 'user',
       sort: '-created',
-      requestKey: `fetch-comments-${post_id}`, // 同時に複数リクエストが走った際にキャンセルさせないように
+      requestKey: `fetch-comments-${post_id}`, // allow multiple pb API request
     })
     comments.value = {
       ...comments.value,

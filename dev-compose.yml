@@ -6,7 +6,7 @@ services:
       args:
         VITE_PB_URL: 'http://localhost:8090/'
         VITE_LLMS_URL: 'http://localhost:8000/llms/'
-    image: llms-micro-blog-web:latest
+    image: llms-micro-blog-web:develop
     ports:
       - '5173:5173'
 

@@ -1,5 +1,5 @@
 ############################################################
-#                     Stage 1: Base                        #
+#                   Stage 1: Base                          #
 ############################################################
 FROM oven/bun:1.1.40 AS base
 
@@ -10,7 +10,6 @@ RUN bun install --frozen-lockfile
 
 COPY . .
 
-# FE will target pocketbase server, so we need to set the URL here.
 ARG VITE_PB_URL="/pb/"
 ENV VITE_PB_URL=$VITE_PB_URL
 ARG VITE_LLMS_URL="/llms/"
@@ -32,14 +31,12 @@ RUN bun run build-only
 
 
 ############################################################
-#                  Stage 4: Serve                          #
+#                   Stage 4: Serve                         #
 ############################################################
 FROM nginx:latest
 
 COPY nginx_default.conf /etc/nginx/conf.d/default.conf
-
 COPY --from=builder /home/bun/app/dist /usr/share/nginx/html/app
-
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

@@ -15,7 +15,7 @@ export const useSessionStore = defineStore('session', () => {
     sessionId.value = _session
     localStorage.setItem('session', _session)
 
-    session.value = null // include here?
+    session.value = null
   }
   async function fetchSession(): Promise<void> {
     loadSessionId()
@@ -31,13 +31,12 @@ export const useSessionStore = defineStore('session', () => {
       }
       session.value = response!
 
-      // tmp
+      // ToDo: split pb login outside here
       const pb = usePocketBase()
       pb.init()
       try {
         await pb.login(response!.user_id)
       } catch (e) {
-        // TODO: upload avatar?
         await pb.signup(response!)
       }
     }
