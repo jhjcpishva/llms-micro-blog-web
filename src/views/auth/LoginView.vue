@@ -6,7 +6,7 @@ import { onMounted } from 'vue'
 
 const [route, router] = [useRoute(), useRouter()]
 
-const { BASE_URL } = import.meta.env
+const { BASE_URL, VITE_LLMS_URL } = import.meta.env
 
 onMounted(() => {
   const { from } = route.query
@@ -29,7 +29,7 @@ onMounted(() => {
     .join('&')
 
   // LLMS サービスへ繊維
-  window.location.replace(`/llms/login?${query}`)
+  window.location.replace(`${VITE_LLMS_URL}login?${query}`)
 })
 </script>
 

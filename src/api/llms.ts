@@ -1,3 +1,5 @@
+const { VITE_LLMS_URL } = import.meta.env
+
 interface BaseResponse<T> {
   status: number
   error?: any
@@ -27,7 +29,7 @@ interface AuthCollectResponse {
 export async function authCollect(
   code: string,
 ): Promise<BaseResponse<AuthCollectResponse>> {
-  const res = await fetch('/llms/api/v1/auth/collect', {
+  const res = await fetch(`${VITE_LLMS_URL}api/v1/auth/collect`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -48,6 +50,6 @@ export interface FetchSessionResponse {
 export async function fetchSession(
   sessionId: string,
 ): Promise<BaseResponse<FetchSessionResponse>> {
-  const res = await fetch(`/llms/api/v1/sessions/${sessionId}/`)
+  const res = await fetch(`${VITE_LLMS_URL}api/v1/sessions/${sessionId}/`)
   return await buildBaseResponse(res)
 }
