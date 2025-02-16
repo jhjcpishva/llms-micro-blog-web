@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: .
+      target: develop
+    image: llms-micro-blog-web:latest
+    ports:
+      - '5173:5173'
+
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /home/bun/app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
