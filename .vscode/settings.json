@@ -3,8 +3,8 @@
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.*.json, env.d.ts",
     "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*, postcss.config.js, tailwind.config.js",
-    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig",
-    "Dockerfile": "nginx_default.conf"
+    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .prettier*, prettier*, .editorconfig, bun.lockb",
+    "Dockerfile": "nginx_default.conf, dev-compose.yml, .dockerignore"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

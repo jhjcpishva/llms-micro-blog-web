@@ -1,4 +1,15 @@
-# llms-micro-blog
+# llms-micro-blog-web
+
+## dev
+
+```sh
+
+docker compose -f dev-compose build --no-cache
+docker compose -f dev-compose.yml watch
+
+```
+
+## _
 
 This template should help get you started developing with Vue 3 in Vite.
 
