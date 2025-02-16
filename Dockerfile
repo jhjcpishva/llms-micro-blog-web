@@ -13,6 +13,8 @@ COPY . .
 # FE will target pocketbase server, so we need to set the URL here.
 ARG VITE_PB_URL="/pb/"
 ENV VITE_PB_URL=$VITE_PB_URL
+ARG VITE_LLMS_URL="/llms/"
+ENV VITE_LLMS_URL=$VITE_LLMS_URL
 
 
 ############################################################
