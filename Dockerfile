@@ -3,6 +3,9 @@
 ############################################################
 FROM oven/bun:1.1.40 AS base
 
+# Meta
+LABEL org.opencontainers.image.source="https://github.com/jhjcpishva/llms-micro-blog-web"
+
 # Copy the lock and package file
 COPY package.json .
 COPY bun.lockb .
