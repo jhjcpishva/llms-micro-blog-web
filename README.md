@@ -9,6 +9,8 @@ docker compose -f dev-compose.yml watch
 
 ```
 
+Open http://localhost:5173/app/
+
 ## _
 
 This template should help get you started developing with Vue 3 in Vite.
